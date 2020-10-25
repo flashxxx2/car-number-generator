@@ -28,7 +28,7 @@ public class CarNumberService {
         Random rn = new Random();
 
         CarNumberDto carNumber = new CarNumberDto();
-        carNumber.setNumber(1 + (int) (Math.random() * 999));
+        carNumber.setNumber(rn.nextInt(1000));
 
         carNumber.setFirstLetter(LETTERS[rn.nextInt(LETTERS.length)]);
         carNumber.setSecondLetter(LETTERS[rn.nextInt(LETTERS.length)]);
@@ -59,13 +59,13 @@ public class CarNumberService {
 
     private CarNumberDto generateNextNumber() {
 
-        CarNumberDto carNumberDto = CarNumberMapper.entityToDto(repository.findEntity());
-        return generate(carNumberDto);
+        CarNumberDto carNumberDto = CarNumberMapper.entityToDto(repository.getLastEntity());
+        return generateNext(carNumberDto);
 
     }
 
     private CarNumberDto generateNextNumber(CarNumberDto carNumberDto) {
-        return generate(carNumberDto);
+        return generateNext(carNumberDto);
     }
 
     private String getNextLetter(String letter) {
@@ -82,7 +82,7 @@ public class CarNumberService {
         return !carNumbers.isEmpty();
     }
 
-    private CarNumberDto generate(CarNumberDto carNumberDto) {
+    private CarNumberDto generateNext(CarNumberDto carNumberDto) {
         String lastLetter = LETTERS[LETTERS.length - 1];
         if (carNumberDto.getNumber() < 999) {
             carNumberDto.setNumber(carNumberDto.getNumber() + 1);

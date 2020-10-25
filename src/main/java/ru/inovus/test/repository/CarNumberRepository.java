@@ -12,17 +12,18 @@ import java.util.List;
 public interface CarNumberRepository extends JpaRepository<CarNumberEntity, Integer> {
 
     @Query(
-            value = "SELECT * FROM car_number c WHERE c.first_letter = :first_letter " +
+            value = "SELECT * FROM car_numbers c WHERE c.first_letter = :first_letter " +
                     "AND c.second_letter = :second_letter " +
                     "AND c.third_letter = :third_letter " +
                     "AND c.number = :number",
             nativeQuery = true)
+
     List<CarNumberEntity> findCarNumber(@Param("first_letter") String firstLetter,
                                         @Param("second_letter") String secondLetter,
                                         @Param("third_letter") String thirdLetter,
                                         @Param("number") int number);
 
-    @Query(value = "SELECT * FROM car_number WHERE id = (SELECT MAX(id) FROM car_number)", nativeQuery = true)
-    CarNumberEntity findEntity();
+    @Query(value = "SELECT * FROM car_numbers WHERE id = (SELECT MAX(id) FROM car_numbers)", nativeQuery = true)
+    CarNumberEntity getLastEntity();
 
 }
